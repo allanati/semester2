@@ -6,7 +6,7 @@
 1.	Конструктор копирования	                                                    +
 2.	Оператор присваивания копированием											+
 3.	Оператор ввода и вывода														+
-4.	Операторы +, +=, *, *=                                                      ++++
+4.	Операторы +, +=, *, *=
 5.	Оператор ++, который увеличивает все элементы матрицы на 1				    +
 6.	Метод вычисления определителя											    +
 7.	Метод или оператор для получения и изменения элемента матрицы по индексу	+
@@ -22,9 +22,6 @@ private:
     T m_arr[N][M];
 
 public:
-
-    template <typename T, unsigned char N, unsigned char M>
-    friend T at(const Matrix<T, N, M>& matrix, unsigned char n, unsigned char m);
 
     template <typename T, unsigned char N, unsigned char M>
     friend void setElement(Matrix<T, N, M>& matrix, unsigned char n, unsigned char m, T element);
@@ -81,56 +78,6 @@ public:
 
     }
 
-    Matrix <T, N, M> operator + (const Matrix <T, N, M>& other) {
-
-        Matrix <T, N, M> result;
-        for (size_t i = 0; i < N; i++) {
-            for (size_t j = 0; j < M; j++) {
-                result.m_arr[i][j] = m_arr[i][j] + other.m_arr[i][j];
-            }
-        }
-
-        return result;
-    }
-
-    void operator += (const Matrix <T, N, M>& other) {
-
-        for (size_t i = 0; i < N; i++) {
-            for (size_t j = 0; j < M; j++) {
-                m_arr[i][j] = m_arr[i][j] + other.m_arr[i][j];
-            }
-        }
-    }
-
-    Matrix operator * (const Matrix& other)
-    {
-        Matrix temp = *this;
-        temp *= other;
-
-        return temp;
-    }
-
-    Matrix <T, N, M>& operator *= (const Matrix <T, N, M>& other) {
-
-        Matrix <T, N, M> result;
-
-        for (size_t i = 0; i < N; i++) {
-            for (size_t j = 0; j < M; j++) {
-                for (size_t k = 0; k < N; k++) {
-                    result.m_arr[i][j] += m_arr[i][k] * other.m_arr[k][j];
-                }
-            }
-        }
-
-        for (size_t i = 0; i < N; i++) {
-            for (size_t j = 0; j < M; j++) {
-                m_arr[i][j] = result.m_arr[i][j];
-            }
-        }
-
-        return *this;
-    }
-
     Matrix& operator ++ ()      //префикс, сначала прибавляем к значению m_re 1, затем возвращаем ссылку на объект
     {
         for (size_t i = 0; i < N; i++) {
@@ -155,18 +102,16 @@ public:
 
         return temp;
     }
+
+    T at(unsigned char n, unsigned char m)
+    {
+        return this->m_arr[n][m];
+    }
 };
-
-
-template <typename T, unsigned char N, unsigned char M>
-T at(const Matrix<T, N, M>& matrix, unsigned char n, unsigned char m)
-{
-    return matrix.m_arr[n - 1][m - 1];
-}
 
 template <typename T, unsigned char N, unsigned char M>
 void setElement(Matrix<T, N, M>& matrix, unsigned char n, unsigned char m, T element) {
-    matrix.m_arr[n - 1][m - 1] = element;
+    matrix.m_arr[n][m] = element;
 }
 
 template <typename T, unsigned char N, unsigned char M>
@@ -209,17 +154,15 @@ int main()
 
         std::cin >> a;
         std::cout << a;
-        //std::cout << "Determinant: " << a.determinant() << std::endl;
-        //std::cout << ++a << std::endl;
+        std::cout << "Determinant: " << a.determinant() << std::endl;
+        std::cout << ++a << std::endl;
 
         Matrix<int, 3, 3> b = a;
-        //std::cout << "Sum a+b: " << a + b << std::endl;
-        
-        //Matrix<int, 3, 3> c;
-        //c = b = a;
 
-        std::cout << (a * b) << std::endl;
-        //std::cout << at(c, 1, 1);
+        Matrix<int, 3, 3> c;
+
+        c = b = a;
+        std::cout << "Element: " << c.at(1, 1);
         //std::cout << c << std::endl;
         //setElement(c, 1, 1, 10);
         //std::cout << c << std::endl;
