@@ -37,12 +37,14 @@ private:
 public:
     Circle(const std::string& color, double x, double y, double radius) : Shape(color, x, y), Radius(radius) {}
 
-    double getArea() const override {
+    double getArea() const override 
+    {
         std::cout << "Area of the circle: ";
         return acos(-1) * Radius * Radius;
     }
 
-    ~Circle() {
+    ~Circle() override
+    {
         std::cout << "Derived (circle) destructor called" << std::endl;
     }
 };
@@ -62,7 +64,7 @@ public:
         return sqrt(p * (p - FirstSide) * (p - SecondSide) * (p - ThirdSide));
     }
     
-    ~Triangle()
+    ~Triangle() override
     {
         std::cout << "Derived (triangle) destructor called" << std::endl;
     }
@@ -81,7 +83,7 @@ public:
         return Width * Height;
     }
 
-    ~Rectangle()
+    ~Rectangle() override
     {
         std::cout << "Derived (rectangle) destructor called" << std::endl;
     }
