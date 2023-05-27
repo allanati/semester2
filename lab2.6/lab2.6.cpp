@@ -1,7 +1,6 @@
 ﻿#include "Logger.hpp"
 
 int main() {
-    //std::cerr.rdbuf(std::cout.rdbuf());
     an::Logger logger("log.txt");
     logger.setLogLevel(an::LogLevel::Error);
 
